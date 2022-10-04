@@ -28,4 +28,5 @@ Test Driven Development is a nice addition to this clear exercise.
 
 ## Credits
 
-To my teacher (Pilar) from whom I learned this exercise
+To my teacher (Pilar) from whom I learned this exercise.
+And to Chelo, a teacher that mentioned this as a technical challenge for some bussiness
