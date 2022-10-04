@@ -36,5 +36,6 @@ And to Chelo, a teacher that mentioned this as a technical challenge for some bu
 
 - [X] Complete the base exercise
 - [X] Use a map to compute the operations
-- [ ] Implement an amount for the change
+- [X] Implement an amount for the change
+  - [ ] Implement a smart amount for the change, meaning, if we can supply change by using lower value currency, that's still considered a good solution
 - [ ] Implement a (clearly defined) test set

@@ -22,9 +22,10 @@ const (
 
 // input type
 type ChangeType struct {
-	name  string
-	value int
-	units int
+	name   string
+	value  int
+	units  int
+	amount int
 }
 
 func readInput(prompt string) string {
@@ -58,7 +59,13 @@ func getChangeReturn(amount int, change []ChangeType) Dictionary {
 			continue
 		}
 
-		totalChange[currentChange.name] = remainingAmount / parsedValue
+		amountOfValue := remainingAmount / parsedValue
+		if amountOfValue > currentChange.amount {
+			fmt.Println("There's not enough amount of this currency to supply")
+			return nil
+		}
+
+		totalChange[currentChange.name] = amountOfValue
 		remainingAmount = remainingAmount % parsedValue
 
 		if remainingAmount <= 0 {
@@ -97,83 +104,98 @@ func prettyFormatChange(rawChange Dictionary) string {
 func main() {
 	change := []ChangeType{
 		{
-			name:  "500.EUR",
-			value: 500,
-			units: EUROS,
+			name:   "500.EUR",
+			value:  500,
+			units:  EUROS,
+			amount: 3,
 		},
 		{
-			name:  "200.EUR",
-			value: 200,
-			units: EUROS,
+			name:   "200.EUR",
+			value:  200,
+			units:  EUROS,
+			amount: 0,
 		},
 		{
-			name:  "100.EUR",
-			value: 100,
-			units: EUROS,
+			name:   "100.EUR",
+			value:  100,
+			units:  EUROS,
+			amount: 0,
 		},
 		{
-			name:  "50.EUR",
-			value: 50,
-			units: EUROS,
+			name:   "50.EUR",
+			value:  50,
+			units:  EUROS,
+			amount: 0,
 		},
 		{
-			name:  "20.EUR",
-			value: 20,
-			units: EUROS,
+			name:   "20.EUR",
+			value:  20,
+			units:  EUROS,
+			amount: 0,
 		},
 		{
-			name:  "10.EUR",
-			value: 10,
-			units: EUROS,
+			name:   "10.EUR",
+			value:  10,
+			units:  EUROS,
+			amount: 0,
 		},
 		{
-			name:  "5.EUR",
-			value: 5,
-			units: EUROS,
+			name:   "5.EUR",
+			value:  5,
+			units:  EUROS,
+			amount: 0,
 		},
 		{
-			name:  "2.EUR",
-			value: 2,
-			units: EUROS,
+			name:   "2.EUR",
+			value:  2,
+			units:  EUROS,
+			amount: 0,
 		},
 		{
-			name:  "1.EUR",
-			value: 1,
-			units: EUROS,
+			name:   "1.EUR",
+			value:  1,
+			units:  EUROS,
+			amount: 0,
 		},
 		{
-			name:  "50.CENTS",
-			value: 50,
-			units: CENTS,
+			name:   "50.CENTS",
+			value:  50,
+			units:  CENTS,
+			amount: 0,
 		},
 		{
-			name:  "20.CENTS",
-			value: 20,
-			units: CENTS,
+			name:   "20.CENTS",
+			value:  20,
+			units:  CENTS,
+			amount: 0,
 		},
 		{
-			name:  "10.CENTS",
-			value: 10,
-			units: CENTS,
+			name:   "10.CENTS",
+			value:  10,
+			units:  CENTS,
+			amount: 0,
 		},
 		{
-			name:  "5.CENTS",
-			value: 5,
-			units: CENTS,
+			name:   "5.CENTS",
+			value:  5,
+			units:  CENTS,
+			amount: 0,
 		},
 		{
-			name:  "2.CENTS",
-			value: 2,
-			units: CENTS,
+			name:   "2.CENTS",
+			value:  2,
+			units:  CENTS,
+			amount: 0,
 		},
 		{
-			name:  "1.CENTS",
-			value: 1,
-			units: CENTS,
+			name:   "1.CENTS",
+			value:  1,
+			units:  CENTS,
+			amount: 0,
 		},
 	}
-	// input := readInput("Enter text (introduce the value in cents please): ")
-	input := "235101"
+	input := readInput("Enter text (introduce the value in cents please): ")
+	// input := "235101"
 
 	// parse amount
 	parsedAmount, err := strconv.Atoi(input)
