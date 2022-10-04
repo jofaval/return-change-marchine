@@ -8,6 +8,7 @@ A classic example of the machine that returns change optimizing the amount of el
 1. [Problem](#problem)
 1. [Testing](#testing)
 1. [Credits](#credits)
+1. [TODO](#todo)
 
 ## Using go
 
@@ -30,3 +31,10 @@ Test Driven Development is a nice addition to this clear exercise.
 
 To my teacher (Pilar) from whom I learned this exercise.
 And to Chelo, a teacher that mentioned this as a technical challenge for some bussiness
+
+## TODO
+
+- [X] Complete the base exercise
+- [X] Use a map to compute the operations
+- [ ] Implement an amount for the change
+- [ ] Implement a (clearly defined) test set
