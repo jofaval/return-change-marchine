@@ -194,14 +194,16 @@ func main() {
 			amount: 0,
 		},
 	}
-	input := readInput("Enter text (introduce the value in cents please): ")
-	// input := "235101"
+	// input := readInput("Enter text (introduce the value in cents please): ")
+	input := "235101"
 
 	// parse amount
 	parsedAmount, err := strconv.Atoi(input)
 	fmt.Println("raw", input, "parsed", parsedAmount, "error", err)
+	fmt.Println()
 
 	result := getChangeReturn(parsedAmount, change)
+	fmt.Println()
 	fmt.Println("Total result")
 	fmt.Println(prettyFormatChange(result))
 }
