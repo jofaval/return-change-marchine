@@ -75,6 +75,25 @@ func getChangeReturn(amount int, change []ChangeType) Dictionary {
 	return totalChange
 }
 
+func prettyFormatChange(rawChange Dictionary) string {
+	if rawChange == nil {
+		return "No change was available"
+	}
+
+	formatted := []string{}
+
+	for key, value := range rawChange {
+		splitted := strings.Split(key, ".")
+
+		amount := splitted[0]
+		units := splitted[1]
+
+		formatted = append(formatted, fmt.Sprintf("%d of %s %s", value, amount, units))
+	}
+
+	return strings.Join(formatted, "\n")
+}
+
 func main() {
 	change := []ChangeType{
 		{
@@ -153,13 +172,14 @@ func main() {
 			units: CENTS,
 		},
 	}
-	input := readInput("Enter text (introduce the value in cents please): ")
-	// input := "235"
+	// input := readInput("Enter text (introduce the value in cents please): ")
+	input := "235101"
 
 	// parse amount
 	parsedAmount, err := strconv.Atoi(input)
 	fmt.Println("raw", input, "parsed", parsedAmount, "error", err)
 
 	result := getChangeReturn(parsedAmount, change)
-	fmt.Println("Total result", result)
+	fmt.Println("Total result")
+	fmt.Println(prettyFormatChange(result))
 }
