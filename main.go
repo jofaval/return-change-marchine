@@ -45,8 +45,8 @@ func getChangeReturn(amount int, change []ChangeType) Dictionary {
 	totalChange := Dictionary{}
 
 	changeLen := len(change)
-	for i := 0; i < changeLen; i++ {
-		currentChange := change[i]
+	for changeIndex := 0; changeIndex < changeLen; changeIndex++ {
+		currentChange := change[changeIndex]
 		parsedValue := currentChange.value
 
 		if currentChange.units == EUROS || currentChange.units == DOLLARS {
