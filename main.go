@@ -8,6 +8,10 @@ import (
 	"strings"
 )
 
+const (
+	DEBUG_MODE = false
+)
+
 func readInput(prompt string) string {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Print(prompt)
@@ -23,12 +27,19 @@ func readInput(prompt string) string {
 func main() {
 	change := initChange()
 
-	input := readInput("Enter text (introduce the value in cents please): ")
-	// input := "235101"
+	var input string
+
+	if DEBUG_MODE {
+		input = "235101"
+	} else {
+		input = readInput("Enter text (introduce the value in cents please): ")
+	}
 
 	// parse amount
 	parsedAmount, err := strconv.Atoi(input)
-	fmt.Println("raw", input, "parsed", parsedAmount, "error", err)
+	if DEBUG_MODE {
+		fmt.Println("raw", input, "parsed", parsedAmount, "error", err)
+	}
 	fmt.Println()
 
 	result := GetChangeReturn(parsedAmount, change)

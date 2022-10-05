@@ -5,10 +5,6 @@ import (
 	"strings"
 )
 
-const (
-	DEBUG_MODE = false
-)
-
 func shouldScaleUpUnit(units int) bool {
 	return units == EUROS || units == DOLLARS
 }
