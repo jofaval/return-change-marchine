@@ -8,26 +8,6 @@ import (
 	"strings"
 )
 
-type Dictionary map[string]interface{}
-
-// unit types
-const (
-	CENTS   = iota
-	EUROS   = iota
-	DOLLARS = iota
-)
-
-// TODO: focus on the solution, the aim for the best solution where it knows the available change
-// and can even be able to acknowledge that no change is available, too high or not precise
-
-// input type
-type ChangeType struct {
-	name   string
-	value  int
-	units  int
-	amount int
-}
-
 func readInput(prompt string) string {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Print(prompt)
@@ -99,101 +79,6 @@ func prettyFormatChange(rawChange Dictionary) string {
 	}
 
 	return strings.Join(formatted, "\n")
-}
-
-func initChange() []ChangeType {
-	return []ChangeType{
-		{
-			name:   "500.EUR",
-			value:  500,
-			units:  EUROS,
-			amount: 3,
-		},
-		{
-			name:   "200.EUR",
-			value:  200,
-			units:  EUROS,
-			amount: 0,
-		},
-		{
-			name:   "100.EUR",
-			value:  100,
-			units:  EUROS,
-			amount: 0,
-		},
-		{
-			name:   "50.EUR",
-			value:  50,
-			units:  EUROS,
-			amount: 0,
-		},
-		{
-			name:   "20.EUR",
-			value:  20,
-			units:  EUROS,
-			amount: 0,
-		},
-		{
-			name:   "10.EUR",
-			value:  10,
-			units:  EUROS,
-			amount: 0,
-		},
-		{
-			name:   "5.EUR",
-			value:  5,
-			units:  EUROS,
-			amount: 0,
-		},
-		{
-			name:   "2.EUR",
-			value:  2,
-			units:  EUROS,
-			amount: 0,
-		},
-		{
-			name:   "1.EUR",
-			value:  1,
-			units:  EUROS,
-			amount: 0,
-		},
-		{
-			name:   "50.CENTS",
-			value:  50,
-			units:  CENTS,
-			amount: 0,
-		},
-		{
-			name:   "20.CENTS",
-			value:  20,
-			units:  CENTS,
-			amount: 0,
-		},
-		{
-			name:   "10.CENTS",
-			value:  10,
-			units:  CENTS,
-			amount: 0,
-		},
-		{
-			name:   "5.CENTS",
-			value:  5,
-			units:  CENTS,
-			amount: 0,
-		},
-		{
-			name:   "2.CENTS",
-			value:  2,
-			units:  CENTS,
-			amount: 0,
-		},
-		{
-			name:   "1.CENTS",
-			value:  1,
-			units:  CENTS,
-			amount: 0,
-		},
-	}
 }
 
 func main() {
