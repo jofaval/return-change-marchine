@@ -27,6 +27,13 @@ Given it's a small example with predefined best solutions, it'd be nice to clear
 
 Test Driven Development is a nice addition to this clear exercise.
 
+### Test with coverage
+
+```bash
+go test -v -coverprofile=coverage.out ./...
+go tool cover -html=coverage.out
+```
+
 ## Credits
 
 To my teacher (Pilar) from whom I learned this exercise.\
