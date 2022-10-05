@@ -41,8 +41,12 @@ func getChangeReturn(amount int, change []ChangeType) Dictionary {
 
 		amountOfValue := remainingAmount / parsedValue
 		if amountOfValue > currentChange.amount {
-			fmt.Println("There's not enough amount of this currency to supply")
-			return nil
+			// Early return
+			// fmt.Println("There's not enough amount of this currency to supply")
+			// return nil
+
+			fmt.Println("There's not enough amount of this currency to supply, it will attempt to compensate with lower value currency")
+			amountOfValue = parsedValue * currentChange.amount
 		}
 
 		totalChange[currentChange.name] = amountOfValue
