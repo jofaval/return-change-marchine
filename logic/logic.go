@@ -2,7 +2,7 @@ package logic
 
 import (
 	"fmt"
-	"return-change-machine/config"
+	"return-change-machine/utils"
 	"strings"
 )
 
@@ -36,33 +36,22 @@ func GetChangeReturn(amount int, change []ChangeType) MapResultChangeType {
 		parsedValue := currentChange.value
 
 		if shouldScaleUpUnit(currentChange.units) {
-			if config.DEBUG_MODE {
-				fmt.Println("Has to parse units")
-			}
+			utils.DebugPrint("Has to parse units")
 			parsedValue *= 100
 		}
 
-		if config.DEBUG_MODE {
-			fmt.Println(parsedValue)
-		}
+		utils.DebugPrint(parsedValue)
 		if changeWouldBeTooHigh(parsedValue, remainingAmount) {
-			if config.DEBUG_MODE {
-				fmt.Println("Value is too high to compute", "parsed", parsedValue, "remaining", remainingAmount)
-			}
+			utils.DebugPrint("Value is too high to compute", "parsed", parsedValue, "remaining", remainingAmount)
 			continue
 		}
 
 		amountOfValue := remainingAmount / parsedValue
 		if cantMakeUpForAmount(amountOfValue, currentChange.amount) {
 			// Early return
-			// if config.DEBUG_MODE {
-			// 	fmt.Println("There's not enough amount of this currency to supply")
-			// }
+			// utils.DebugPrint.Println("There's not enough amount of this currency to supply")
 			// return nil
-
-			if config.DEBUG_MODE {
-				fmt.Println("There's not enough amount of this currency to supply, it will attempt to compensate with lower value currency")
-			}
+			utils.DebugPrint("There's not enough amount of this currency to supply, it will attempt to compensate with lower value currency")
 
 			amountOfValue = currentChange.amount
 			remainingAmount = remainingAmount - parsedValue*currentChange.amount
@@ -77,18 +66,15 @@ func GetChangeReturn(amount int, change []ChangeType) MapResultChangeType {
 		}
 
 		if alreadyReturnedChange(remainingAmount) {
-			if config.DEBUG_MODE {
-				fmt.Println("There's no remaining amount, early escaping, hopefully")
-			}
+			utils.DebugPrint("There's no remaining amount, early escaping, hopefully")
 			break
 		}
 	}
 
 	// If no change, or not enough, available, "raise an exception"
 	if thereWasntEnoughChange(totalChange, remainingAmount) {
-		if config.DEBUG_MODE {
-			fmt.Println("There wasn't enough change")
-		}
+
+		utils.DebugPrint("There wasn't enough change")
 		return nil
 	}
 
