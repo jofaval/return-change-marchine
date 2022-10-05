@@ -51,11 +51,13 @@ func GetChangeReturn(amount int, change []ChangeType) Dictionary {
 			// return nil
 
 			fmt.Println("There's not enough amount of this currency to supply, it will attempt to compensate with lower value currency")
-			amountOfValue = parsedValue * currentChange.amount
-		}
 
+			amountOfValue = currentChange.amount
+			remainingAmount = remainingAmount - parsedValue*currentChange.amount
+		} else {
+			remainingAmount = remainingAmount % parsedValue
+		}
 		totalChange[currentChange.name] = amountOfValue
-		remainingAmount = remainingAmount % parsedValue
 
 		if alreadyReturnedChange(remainingAmount) {
 			fmt.Println("There's no remaining amount, early escaping, hopefully")
@@ -65,6 +67,7 @@ func GetChangeReturn(amount int, change []ChangeType) Dictionary {
 
 	// If no change, or not enough, available, "raise an exception"
 	if thereWasntEnoughChange(totalChange, remainingAmount) {
+		fmt.Println("There wasn't enough change")
 		return nil
 	}
 
