@@ -194,12 +194,13 @@ func TestPrettyFormatChange(t *testing.T) {
 	got := PrettyFormatChange(MapResultChangeType{
 		"3.EUR": {
 			amount: 3,
-			value:  3,
 			units:  EUROS,
+			// Mulitiplied by 100 because it's the result of parsing euros to cents
+			value: 300,
 		},
 	})
 
-	if got != "3 of 3 EUR" {
+	if got != "3 of 3 EUROS" {
 		t.Error("Didn't match the expected output")
 	}
 }
