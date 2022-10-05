@@ -4,6 +4,99 @@ import (
 	"testing"
 )
 
+func TestShouldScaleUpUnitIsEuros(t *testing.T) {
+	got := shouldScaleUpUnit(EUROS)
+	if !got {
+		t.Error("Failed")
+	}
+}
+
+func TestShouldScaleUpUnitIsDollars(t *testing.T) {
+	got := shouldScaleUpUnit(DOLLARS)
+	if !got {
+		t.Error("Failed")
+	}
+}
+
+func TestShouldScaleUpUnitIsNeither(t *testing.T) {
+	got := shouldScaleUpUnit(CENTS)
+	if got {
+		t.Error("Failed")
+	}
+}
+
+func TestChangeWouldBeTooHigh(t *testing.T) {
+	got := changeWouldBeTooHigh(20, 5)
+	if !got {
+		t.Error("Failed")
+	}
+}
+
+func TestChangeWouldBeTooHighButIsnt(t *testing.T) {
+	got := changeWouldBeTooHigh(5, 20)
+	if got {
+		t.Error("Failed")
+	}
+}
+
+func TestCantMakeUpForAmount(t *testing.T) {
+	got := cantMakeUpForAmount(5, 20)
+	if got {
+		t.Error("Failed")
+	}
+}
+
+func TestCantMakeUpForAmountButActuallyCan(t *testing.T) {
+	got := cantMakeUpForAmount(20, 5)
+	if !got {
+		t.Error("Failed")
+	}
+}
+
+func TestThereWasntEnoughChangeNoChange(t *testing.T) {
+	got := thereWasntEnoughChange(Dictionary{}, 20)
+	if !got {
+		t.Error("Failed")
+	}
+}
+
+func TestThereWasntEnoughChangeThereStillRemaining(t *testing.T) {
+	got := thereWasntEnoughChange(nil, 20)
+	if !got {
+		t.Error("Failed")
+	}
+}
+
+func TestThereWasntEnoughChangeThereWas(t *testing.T) {
+	got := thereWasntEnoughChange(Dictionary{
+		"1.EUR": 50,
+	}, 10)
+	if !got {
+		t.Error("Failed")
+	}
+}
+
+func TestAlreadyReturnedChangeAmountIsZero(t *testing.T) {
+	got := alreadyReturnedChange(0)
+	if !got {
+		t.Error("Failed")
+	}
+}
+
+func TestAlreadyReturnedChangeAmountIsNegative(t *testing.T) {
+	got := alreadyReturnedChange(-1)
+	if !got {
+		t.Error("Failed")
+	}
+}
+
+func TestAlreadyReturnedChangeButDidnt(t *testing.T) {
+	got := alreadyReturnedChange(10)
+	if got {
+		t.Error("Failed")
+	}
+}
+
 func TestGetChangeReturn(t *testing.T) {
 	got := GetChangeReturn(100, []ChangeType{
 		{
@@ -69,7 +162,7 @@ func TestGetChangeReturnPaysWithLowerCurrency(t *testing.T) {
 func TestGetChangeReturnPaysAndStillHasMoneyLeft(t *testing.T) {
 	got := GetChangeReturn(500, []ChangeType{
 		{
-			name:   "5.EUR",
+			name:   "5.CENTS",
 			value:  5,
 			units:  CENTS,
 			amount: 1000,
@@ -81,8 +174,8 @@ func TestGetChangeReturnPaysAndStillHasMoneyLeft(t *testing.T) {
 			amount: 100,
 		},
 	})
-	if got["1.EUR"] != 3 {
-		t.Error("Expected to not have enough")
+	if got["5.CENTS"] != 100 {
+		t.Error("Expected to still have money left")
 	}
 }
 
