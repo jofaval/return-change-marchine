@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"machine/utils"
 	"os"
 	"return-change-machine/config"
 	"return-change-machine/logic"
@@ -35,9 +36,7 @@ func main() {
 
 	// parse amount
 	parsedAmount, err := strconv.Atoi(input)
-	if config.DEBUG_MODE {
-		fmt.Println("raw", input, "parsed", parsedAmount, "error", err)
-	}
+	utils.DebugPrint("raw", input, "parsed", parsedAmount, "error", err)
 	fmt.Println()
 
 	result := logic.GetChangeReturn(parsedAmount, change)
