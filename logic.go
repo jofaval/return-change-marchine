@@ -39,6 +39,7 @@ func GetChangeReturn(amount int, change []ChangeType) Dictionary {
 			parsedValue *= 100
 		}
 
+		fmt.Println(parsedValue)
 		if changeWouldBeTooHigh(parsedValue, remainingAmount) {
 			fmt.Println("Value is too high to compute", "parsed", parsedValue, "remaining", remainingAmount)
 			continue
