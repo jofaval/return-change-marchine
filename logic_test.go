@@ -66,6 +66,26 @@ func TestGetChangeReturnPaysWithLowerCurrency(t *testing.T) {
 	}
 }
 
+func TestGetChangeReturnPaysAndStillHasMoneyLeft(t *testing.T) {
+	got := GetChangeReturn(500, []ChangeType{
+		{
+			name:   "5.EUR",
+			value:  5,
+			units:  CENTS,
+			amount: 1000,
+		},
+		{
+			name:   "1.EUR",
+			value:  1,
+			units:  EUROS,
+			amount: 100,
+		},
+	})
+	if got["1.EUR"] != 3 {
+		t.Error("Expected to not have enough")
+	}
+}
+
 func TestPrettyFormatChangeNoInput(t *testing.T) {
 	got := PrettyFormatChange(nil)
 	if got != "No change was available" {
