@@ -23,8 +23,8 @@ func readInput(prompt string) string {
 func main() {
 	change := initChange()
 
-	// input := readInput("Enter text (introduce the value in cents please): ")
-	input := "235101"
+	input := readInput("Enter text (introduce the value in cents please): ")
+	// input := "235101"
 
 	// parse amount
 	parsedAmount, err := strconv.Atoi(input)
