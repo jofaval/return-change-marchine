@@ -5,6 +5,10 @@ import (
 	"strings"
 )
 
+const (
+	DEBUG_MODE = false
+)
+
 func shouldScaleUpUnit(units int) bool {
 	return units == EUROS || units == DOLLARS
 }
@@ -35,23 +39,33 @@ func GetChangeReturn(amount int, change []ChangeType) Dictionary {
 		parsedValue := currentChange.value
 
 		if shouldScaleUpUnit(currentChange.units) {
-			fmt.Println("Has to parse units")
+			if DEBUG_MODE {
+				fmt.Println("Has to parse units")
+			}
 			parsedValue *= 100
 		}
 
-		fmt.Println(parsedValue)
+		if DEBUG_MODE {
+			fmt.Println(parsedValue)
+		}
 		if changeWouldBeTooHigh(parsedValue, remainingAmount) {
-			fmt.Println("Value is too high to compute", "parsed", parsedValue, "remaining", remainingAmount)
+			if DEBUG_MODE {
+				fmt.Println("Value is too high to compute", "parsed", parsedValue, "remaining", remainingAmount)
+			}
 			continue
 		}
 
 		amountOfValue := remainingAmount / parsedValue
 		if cantMakeUpForAmount(amountOfValue, currentChange.amount) {
 			// Early return
-			// fmt.Println("There's not enough amount of this currency to supply")
+			// if DEBUG_MODE {
+			// 	fmt.Println("There's not enough amount of this currency to supply")
+			// }
 			// return nil
 
-			fmt.Println("There's not enough amount of this currency to supply, it will attempt to compensate with lower value currency")
+			if DEBUG_MODE {
+				fmt.Println("There's not enough amount of this currency to supply, it will attempt to compensate with lower value currency")
+			}
 
 			amountOfValue = currentChange.amount
 			remainingAmount = remainingAmount - parsedValue*currentChange.amount
@@ -61,14 +75,18 @@ func GetChangeReturn(amount int, change []ChangeType) Dictionary {
 		totalChange[currentChange.name] = amountOfValue
 
 		if alreadyReturnedChange(remainingAmount) {
-			fmt.Println("There's no remaining amount, early escaping, hopefully")
+			if DEBUG_MODE {
+				fmt.Println("There's no remaining amount, early escaping, hopefully")
+			}
 			break
 		}
 	}
 
 	// If no change, or not enough, available, "raise an exception"
 	if thereWasntEnoughChange(totalChange, remainingAmount) {
-		fmt.Println("There wasn't enough change")
+		if DEBUG_MODE {
+			fmt.Println("There wasn't enough change")
+		}
 		return nil
 	}
 
