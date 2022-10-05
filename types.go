@@ -16,3 +16,12 @@ type ChangeType struct {
 	units  int
 	amount int
 }
+
+// return result
+type ResultChangeType struct {
+	value  int
+	units  int
+	amount int
+}
+
+type MapResultChangeType map[string]ResultChangeType

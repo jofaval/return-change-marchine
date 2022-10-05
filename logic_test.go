@@ -54,7 +54,7 @@ func TestCantMakeUpForAmountButActuallyCan(t *testing.T) {
 }
 
 func TestThereWasntEnoughChangeNoChange(t *testing.T) {
-	got := thereWasntEnoughChange(Dictionary{}, 20)
+	got := thereWasntEnoughChange(MapResultChangeType{}, 20)
 	if !got {
 		t.Error("Failed")
 	}
@@ -68,8 +68,12 @@ func TestThereWasntEnoughChangeThereStillRemaining(t *testing.T) {
 }
 
 func TestThereWasntEnoughChangeThereWas(t *testing.T) {
-	got := thereWasntEnoughChange(Dictionary{
-		"1.EUR": 50,
+	got := thereWasntEnoughChange(MapResultChangeType{
+		"1.EUR": {
+			value:  1,
+			amount: 50,
+			units:  EUROS,
+		},
 	}, 10)
 	if !got {
 		t.Error("Failed")
@@ -106,7 +110,7 @@ func TestGetChangeReturn(t *testing.T) {
 			amount: 1,
 		},
 	})
-	if got["1.EUR"] != 1 {
+	if got["1.EUR"].amount != 1 {
 		t.Error("Expected to get 1 euro")
 	}
 }
@@ -154,7 +158,7 @@ func TestGetChangeReturnPaysWithLowerCurrency(t *testing.T) {
 			amount: 100,
 		},
 	})
-	if got["1.EUR"] != 3 {
+	if got["1.EUR"].amount != 3 {
 		t.Error("Expected to not have enough")
 	}
 }
@@ -174,7 +178,7 @@ func TestGetChangeReturnPaysAndStillHasMoneyLeft(t *testing.T) {
 			amount: 100,
 		},
 	})
-	if got["5.CENTS"] != 100 {
+	if got["5.CENTS"].amount != 100 {
 		t.Error("Expected to still have money left")
 	}
 }
@@ -187,8 +191,12 @@ func TestPrettyFormatChangeNoInput(t *testing.T) {
 }
 
 func TestPrettyFormatChange(t *testing.T) {
-	got := PrettyFormatChange(Dictionary{
-		"3.EUR": 3,
+	got := PrettyFormatChange(MapResultChangeType{
+		"3.EUR": {
+			amount: 3,
+			value:  3,
+			units:  EUROS,
+		},
 	})
 
 	if got != "3 of 3 EUR" {

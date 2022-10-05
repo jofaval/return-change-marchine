@@ -17,7 +17,7 @@ func cantMakeUpForAmount(amountOfValue int, amount int) bool {
 	return amountOfValue > amount
 }
 
-func thereWasntEnoughChange(totalChange Dictionary, remainingAmount int) bool {
+func thereWasntEnoughChange(totalChange MapResultChangeType, remainingAmount int) bool {
 	return len(totalChange) == 0 || remainingAmount > 0
 }
 
@@ -25,9 +25,9 @@ func alreadyReturnedChange(remainingAmount int) bool {
 	return remainingAmount <= 0
 }
 
-func GetChangeReturn(amount int, change []ChangeType) Dictionary {
+func GetChangeReturn(amount int, change []ChangeType) MapResultChangeType {
 	remainingAmount := amount
-	totalChange := Dictionary{}
+	totalChange := MapResultChangeType{}
 
 	changeLen := len(change)
 	for changeIndex := 0; changeIndex < changeLen; changeIndex++ {
@@ -68,7 +68,12 @@ func GetChangeReturn(amount int, change []ChangeType) Dictionary {
 		} else {
 			remainingAmount = remainingAmount % parsedValue
 		}
-		totalChange[currentChange.name] = amountOfValue
+
+		totalChange[currentChange.name] = ResultChangeType{
+			value:  parsedValue,
+			amount: amountOfValue,
+			units:  currentChange.units,
+		}
 
 		if alreadyReturnedChange(remainingAmount) {
 			if DEBUG_MODE {
@@ -89,20 +94,29 @@ func GetChangeReturn(amount int, change []ChangeType) Dictionary {
 	return totalChange
 }
 
-func PrettyFormatChange(rawChange Dictionary) string {
+func PrettyFormatChange(rawChange MapResultChangeType) string {
 	if rawChange == nil {
 		return "No change was available"
 	}
 
 	formatted := []string{}
 
-	for key, value := range rawChange {
-		splitted := strings.Split(key, ".")
+	for _, returnChangeResult := range rawChange {
+		parsedUnit := ""
+		parsedValue := returnChangeResult.value
 
-		amount := splitted[0]
-		units := splitted[1]
+		switch returnChangeResult.units {
+		case EUROS:
+			parsedUnit = "EUROS"
+			parsedValue /= 100
+		case DOLLARS:
+			parsedUnit = "DOLLARS"
+			parsedValue /= 100
+		case CENTS:
+			parsedUnit = "CENTS"
+		}
 
-		formatted = append(formatted, fmt.Sprintf("%d of %s %s", value, amount, units))
+		formatted = append(formatted, fmt.Sprintf("%d of %d %s", returnChangeResult.amount, parsedValue, parsedUnit))
 	}
 
 	return strings.Join(formatted, "\n")
