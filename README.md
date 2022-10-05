@@ -29,8 +29,10 @@ Test Driven Development is a nice addition to this clear exercise.
 
 ## Credits
 
-To my teacher (Pilar) from whom I learned this exercise.
-And to Chelo, a teacher that mentioned this as a technical challenge for some bussiness
+To my teacher (Pilar) from whom I learned this exercise.\
+And to Chelo, a teacher that mentioned this as a technical challenge for some bussiness.
+
+To this article [Golang Import Local Package](https://linuxhint.com/golang-import-local-package/) for explaining and providing helpful examples about import of local go packages.
 
 ## TODO
 

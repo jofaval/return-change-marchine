@@ -1,6 +1,6 @@
-package main
+package logic
 
-func initChange() []ChangeType {
+func InitChange() []ChangeType {
 	return []ChangeType{
 		{
 			name:   "500.EUR",

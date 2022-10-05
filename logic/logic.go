@@ -1,7 +1,8 @@
-package main
+package logic
 
 import (
 	"fmt"
+	"return-change-machine/config"
 	"strings"
 )
 
@@ -35,17 +36,17 @@ func GetChangeReturn(amount int, change []ChangeType) MapResultChangeType {
 		parsedValue := currentChange.value
 
 		if shouldScaleUpUnit(currentChange.units) {
-			if DEBUG_MODE {
+			if config.DEBUG_MODE {
 				fmt.Println("Has to parse units")
 			}
 			parsedValue *= 100
 		}
 
-		if DEBUG_MODE {
+		if config.DEBUG_MODE {
 			fmt.Println(parsedValue)
 		}
 		if changeWouldBeTooHigh(parsedValue, remainingAmount) {
-			if DEBUG_MODE {
+			if config.DEBUG_MODE {
 				fmt.Println("Value is too high to compute", "parsed", parsedValue, "remaining", remainingAmount)
 			}
 			continue
@@ -54,12 +55,12 @@ func GetChangeReturn(amount int, change []ChangeType) MapResultChangeType {
 		amountOfValue := remainingAmount / parsedValue
 		if cantMakeUpForAmount(amountOfValue, currentChange.amount) {
 			// Early return
-			// if DEBUG_MODE {
+			// if config.DEBUG_MODE {
 			// 	fmt.Println("There's not enough amount of this currency to supply")
 			// }
 			// return nil
 
-			if DEBUG_MODE {
+			if config.DEBUG_MODE {
 				fmt.Println("There's not enough amount of this currency to supply, it will attempt to compensate with lower value currency")
 			}
 
@@ -76,7 +77,7 @@ func GetChangeReturn(amount int, change []ChangeType) MapResultChangeType {
 		}
 
 		if alreadyReturnedChange(remainingAmount) {
-			if DEBUG_MODE {
+			if config.DEBUG_MODE {
 				fmt.Println("There's no remaining amount, early escaping, hopefully")
 			}
 			break
@@ -85,7 +86,7 @@ func GetChangeReturn(amount int, change []ChangeType) MapResultChangeType {
 
 	// If no change, or not enough, available, "raise an exception"
 	if thereWasntEnoughChange(totalChange, remainingAmount) {
-		if DEBUG_MODE {
+		if config.DEBUG_MODE {
 			fmt.Println("There wasn't enough change")
 		}
 		return nil

@@ -4,12 +4,10 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"return-change-machine/config"
+	"return-change-machine/logic"
 	"strconv"
 	"strings"
-)
-
-const (
-	DEBUG_MODE = false
 )
 
 func readInput(prompt string) string {
@@ -25,11 +23,11 @@ func readInput(prompt string) string {
 }
 
 func main() {
-	change := initChange()
+	change := logic.InitChange()
 
 	var input string
 
-	if DEBUG_MODE {
+	if config.DEBUG_MODE {
 		input = "235101"
 	} else {
 		input = readInput("Enter text (introduce the value in cents please): ")
@@ -37,13 +35,13 @@ func main() {
 
 	// parse amount
 	parsedAmount, err := strconv.Atoi(input)
-	if DEBUG_MODE {
+	if config.DEBUG_MODE {
 		fmt.Println("raw", input, "parsed", parsedAmount, "error", err)
 	}
 	fmt.Println()
 
-	result := GetChangeReturn(parsedAmount, change)
+	result := logic.GetChangeReturn(parsedAmount, change)
 	fmt.Println()
 	fmt.Println("Total result")
-	fmt.Println(PrettyFormatChange(result))
+	fmt.Println(logic.PrettyFormatChange(result))
 }

@@ -1,4 +1,4 @@
-package main
+package logic
 
 type Dictionary map[string]interface{}
 
