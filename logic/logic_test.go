@@ -190,7 +190,7 @@ func TestPrettyFormatChangeNoInput(t *testing.T) {
 	}
 }
 
-func TestPrettyFormatChange(t *testing.T) {
+func TestPrettyFormatChangeEuros(t *testing.T) {
 	got := PrettyFormatChange(MapResultChangeType{
 		"3.EUR": {
 			amount: 3,
@@ -202,5 +202,42 @@ func TestPrettyFormatChange(t *testing.T) {
 
 	if got != "3 of 3 EUROS" {
 		t.Error("Didn't match the expected output")
+	}
+}
+
+func TestPrettyFormatChangeDollars(t *testing.T) {
+	got := PrettyFormatChange(MapResultChangeType{
+		"3.DOLLARS": {
+			amount: 3,
+			units:  DOLLARS,
+			// Mulitiplied by 100 because it's the result of parsing euros to cents
+			value: 300,
+		},
+	})
+
+	if got != "3 of 3 DOLLARS" {
+		t.Error("Didn't match the expected output")
+	}
+}
+
+func TestPrettyFormatChangeCents(t *testing.T) {
+	got := PrettyFormatChange(MapResultChangeType{
+		"3.CENTS": {
+			amount: 3,
+			units:  CENTS,
+			// Mulitiplied by 100 because it's the result of parsing euros to cents
+			value: 3,
+		},
+	})
+
+	if got != "3 of 3 CENTS" {
+		t.Error("Didn't match the expected output")
+	}
+}
+
+func TestInitChange(t *testing.T) {
+	got := InitChange()
+	if len(got) <= 1 {
+		t.Error("Didn't load enough change elements")
 	}
 }
