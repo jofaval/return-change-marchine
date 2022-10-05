@@ -5,6 +5,26 @@ import (
 	"strings"
 )
 
+func shouldScaleUpUnit(units int) bool {
+	return units == EUROS || units == DOLLARS
+}
+
+func changeWouldBeTooHigh(parsedValue int, remainingAmount int) bool {
+	return parsedValue > remainingAmount
+}
+
+func cantMakeUpForAmount(amountOfValue int, amount int) bool {
+	return amountOfValue > amount
+}
+
+func thereWasntEnoughChange(totalChange Dictionary, remainingAmount int) bool {
+	return len(totalChange) == 0 || remainingAmount > 0
+}
+
+func alreadyReturnedChange(remainingAmount int) bool {
+	return remainingAmount <= 0
+}
+
 func GetChangeReturn(amount int, change []ChangeType) Dictionary {
 	remainingAmount := amount
 	totalChange := Dictionary{}
@@ -14,18 +34,18 @@ func GetChangeReturn(amount int, change []ChangeType) Dictionary {
 		currentChange := change[changeIndex]
 		parsedValue := currentChange.value
 
-		if currentChange.units == EUROS || currentChange.units == DOLLARS {
+		if shouldScaleUpUnit(currentChange.units) {
 			fmt.Println("Has to parse units")
 			parsedValue *= 100
 		}
 
-		if parsedValue > remainingAmount {
+		if changeWouldBeTooHigh(parsedValue, remainingAmount) {
 			fmt.Println("Value is too high to compute", "parsed", parsedValue, "remaining", remainingAmount)
 			continue
 		}
 
 		amountOfValue := remainingAmount / parsedValue
-		if amountOfValue > currentChange.amount {
+		if cantMakeUpForAmount(amountOfValue, currentChange.amount) {
 			// Early return
 			// fmt.Println("There's not enough amount of this currency to supply")
 			// return nil
@@ -37,14 +57,14 @@ func GetChangeReturn(amount int, change []ChangeType) Dictionary {
 		totalChange[currentChange.name] = amountOfValue
 		remainingAmount = remainingAmount % parsedValue
 
-		if remainingAmount <= 0 {
+		if alreadyReturnedChange(remainingAmount) {
 			fmt.Println("There's no remaining amount, early escaping, hopefully")
 			break
 		}
 	}
 
 	// If no change, or not enough, available, "raise an exception"
-	if len(totalChange) == 0 || remainingAmount > 0 {
+	if thereWasntEnoughChange(totalChange, remainingAmount) {
 		return nil
 	}
 
