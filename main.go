@@ -101,8 +101,8 @@ func prettyFormatChange(rawChange Dictionary) string {
 	return strings.Join(formatted, "\n")
 }
 
-func main() {
-	change := []ChangeType{
+func initChange() []ChangeType {
+	return []ChangeType{
 		{
 			name:   "500.EUR",
 			value:  500,
@@ -194,6 +194,11 @@ func main() {
 			amount: 0,
 		},
 	}
+}
+
+func main() {
+	change := initChange()
+
 	// input := readInput("Enter text (introduce the value in cents please): ")
 	input := "235101"
 
